@@ -19,6 +19,8 @@ async function run() {
   const feedback = core.getInput('feedback')
   const comment = getCurrentIssueComment(payload.client_payload.data, feedback)
 
+  failIfNotApprovedUser()
+
   try {
 
     await functions.commentOnIssue(issueID, comment)
@@ -50,4 +52,23 @@ function getCurrentIssueComment(payloadData, feedback){
 function getRequestIssueComment(issueInfo){
   return dedent`
   - [ ] Early Access Enablement Approved: ${issueInfo.title} #${issueInfo.number}`
+}
+
+function failIfNotApprovedUser(){
+  if(!isApprovedUser) {
+    core.setFailed("Not an approver!");
+  }
+}
+
+function isApprovedUser() {
+  const userTriggered = github.context.payload.command.user.login
+  var approvedUsers = str.split(core.getInput('approvedUsers'));
+
+  for (user of approvedUsers){
+    if (user == userTriggered) {
+      return true
+    }
+  }
+
+  return false
 }

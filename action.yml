@@ -15,7 +15,10 @@ inputs:
     required: true
   feedback:
     description: 'Link to Feedback'
-    required: false
+    required: true
+  approvedUsers:
+    description: 'Comma seperated list of users that can approve'
+    required: true
 runs:
   using: 'node12'
   main: 'index.js'
