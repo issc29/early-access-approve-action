@@ -96,7 +96,7 @@ module.exports = class functions {
       this.core.setFailed('GraphQL request failed')
     } 
     else {
-      console.log(`Added Label: nodeId: ${result.addLabelsToLabelable.labelable.id}`)
+      console.log(`Added Label: nodeId: ${result.removeLabelsFromLabelable.labelable.id}`)
     } 
     return result.addLabelsToLabelable.labelable
   }
