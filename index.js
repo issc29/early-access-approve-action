@@ -35,7 +35,8 @@ async function run() {
     const issueInfo = await functions.getIssueInfo(issueID)
     const approvalComment = dedent`
     - [ ] Early Access Approved to be Enabled: ${issueInfo.title} #${issueInfo.number}`
-    await functions.commentOnIssue(issueID, approvalComment)
+    const approvedIssueID = core.getInput('approvedIssueID')
+    await functions.commentOnIssue(approvedIssueID, approvalComment)
 
   } catch (error) {
     core.setFailed(error.message);

@@ -7,6 +7,9 @@ inputs:
   approvedLabelID:  
     description: 'Label ID for security-center-approved label'
     required: true
+  approvedIssueID:
+    description: 'Issue ID to record approvals'
+    required: true
   requestedLabelID:  
     description: 'Label ID for security-center-requested label'
     required: true
