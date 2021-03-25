@@ -55,7 +55,7 @@ function getRequestIssueComment(issueInfo){
 }
 
 function failIfNotApprovedUser(){
-  if(!isApprovedUser) {
+  if(!isApprovedUser()) {
     core.setFailed("Not an approver!");
   }
 }
