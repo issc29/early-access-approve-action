@@ -17,9 +17,7 @@ run();
 async function run() {
   // Comment on current Issue
   const feedback = core.getInput('feedback')
-  const comment = dedent`
-    ${payload.client_payload.data['Early Access Name']} Early Access has been approved for this account. Product has been notified to turn on this Early Access.
-    Please add to any feedback to ${feedback} during the Early Access.`
+  const comment = getCurrentIssueComment(payload.client_payload.data, feedback)
 
   try {
 
@@ -34,8 +32,7 @@ async function run() {
 
     // Comment on Approval Issue
     const issueInfo = await functions.getIssueInfo(issueID)
-    const approvalComment = dedent`
-    - [ ] Early Access Approved to be Enabled: ${issueInfo.title} #${issueInfo.number}`
+    const approvalComment = getRequestIssueComment(issueInfo)
     const approvedIssueID = core.getInput('approvedIssueID')
     await functions.commentOnIssue(approvedIssueID, approvalComment)
 
@@ -45,18 +42,12 @@ async function run() {
 }
 
 
-function getCurrentIssueComment(payloadData){
-  return dedent`
-    Early Access Name: ${payloadData['Early Access Name']}
-    * Is this an existing customer or prospect? ${payloadData['Briefed of Functionality?']}
-    * [Prospect] Have they been briefed on the functionality of Security Center today? ${payloadData['Existing GHAS Customer?']}
-    * [Prospect] Is Security Center critical to the success of the POC? ${payloadData['Critical to POC?']}
-    * [Prospect] Comments: ${payloadData['Comments']}
-    
-    Next steps: Needs approval by @niroshan or @issc29`
+function getCurrentIssueComment(payloadData, feedback){
+  return dedent`${payloadData['Early Access Name']} Early Access has been approved for this account. Product has been notified to turn on this Early Access.
+  Please add to any feedback to ${feedback} during the Early Access.`
 }
 
 function getRequestIssueComment(issueInfo){
   return dedent`
-    New Early Access Request: ${issueInfo.title} #${issueInfo.number}`
+  - [ ] Early Access Enablement Approved: ${issueInfo.title} #${issueInfo.number}`
 }
