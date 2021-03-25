@@ -19,6 +19,8 @@ async function run() {
   const feedback = core.getInput('feedback')
   const comment = getCurrentIssueComment(payload.client_payload.data, feedback)
 
+  var approvedUsersString = core.getInput('approvedUsers')
+  console.log(approvedUsersString)
   failIfNotApprovedUser()
 
   try {
