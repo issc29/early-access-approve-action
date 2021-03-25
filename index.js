@@ -69,6 +69,7 @@ function isApprovedUser() {
 
   for (user of approvedUsers){
     if (user == userTriggered) {
+      console.log(`${user} : ${userTriggered}`)
       return true
     }
   }
