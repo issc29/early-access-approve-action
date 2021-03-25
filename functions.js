@@ -76,7 +76,7 @@ module.exports = class functions {
     return result.addLabelsToLabelable.labelable
   }
 
-  async removeLabelToIssue(issueID, labelID) {
+  async removeLabelFromIssue(issueID, labelID) {
     const removeLabelMutation = `mutation removeLabel($issueId: ID!, $labelId: [ID!]!){ 
       removeLabelsFromLabelable(input:{labelIds:$labelId, labelableId:$issueId}){
         labelable {
