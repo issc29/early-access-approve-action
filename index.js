@@ -62,7 +62,10 @@ function failIfNotApprovedUser(){
 
 function isApprovedUser() {
   const userTriggered = github.context.payload.command.user.login
-  var approvedUsers = str.split(core.getInput('approvedUsers'));
+  var approvedUsersString = core.getInput('approvedUsers')
+  var approvedUsers = approvedUsersString.split(",").map(function(item) {
+    return item.trim();
+  });
 
   for (user of approvedUsers){
     if (user == userTriggered) {
