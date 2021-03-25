@@ -6,6 +6,7 @@ const myToken = core.getInput('github-token');
 const octokit = github.getOctokit(myToken)
 const approvedLabelID = core.getInput('approvedLabelID');
 const requestedLabelID = core.getInput('requestedLabelID');
+const payload = github.context.payload
 const issueID = payload.client_payload.command.resource.id
 
 const functionsLib = require('./functions');
