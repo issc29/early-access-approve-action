@@ -19,9 +19,9 @@ async function run() {
   const feedback = core.getInput('feedback')
   const comment = getCurrentIssueComment(payload.client_payload.data, feedback)
 
-  var approvedUsersString = core.getInput('approvedUsers')
-  console.log(approvedUsersString)
-  failIfNotApprovedUser()
+  const userTriggered = payload.client_payload.command.user.login
+  var approvedUsers = core.getInput('approvedUsers')
+  failIfNotApprovedUser(userTriggered, approvedUsers)
 
   try {
 
@@ -56,21 +56,19 @@ function getRequestIssueComment(issueInfo){
   - [ ] Early Access Enablement Approved: ${issueInfo.title} #${issueInfo.number}`
 }
 
-function failIfNotApprovedUser(){
-  if(!isApprovedUser()) {
+function failIfNotApprovedUser(userTriggered, approvedUsers){
+  if(!isApprovedUser(userTriggered, approvedUsers)) {
     core.setFailed("Not an approver!");
   }
 }
 
-function isApprovedUser() {
-  const userTriggered = github.context.payload.command.user.login
-  var approvedUsersString = core.getInput('approvedUsers')
-  console.log(approvedUsersString)
-  var approvedUsers = approvedUsersString.split(",").map(function(item) {
+function isApprovedUser(userTriggered, approvedUsers) {
+  console.log(approvedUsers)
+  var approvedUsersList = approvedUsers.split(",").map(function(item) {
     return item.trim();
   });
 
-  for (user of approvedUsers){
+  for (user of approvedUsersList){
     if (user == userTriggered) {
       console.log(`${user} : ${userTriggered}`)
       return true
