@@ -21,9 +21,10 @@ async function run() {
 
   const userTriggered = payload.client_payload.command.user.login
   var approvedUsers = core.getInput('approvedUsers')
-  failIfNotApprovedUser(userTriggered, approvedUsers)
+  
 
   try {
+    failIfNotApprovedUser(userTriggered, approvedUsers)
 
     await functions.commentOnIssue(issueID, comment)
     
@@ -58,7 +59,7 @@ function getRequestIssueComment(issueInfo){
 
 function failIfNotApprovedUser(userTriggered, approvedUsers){
   if(!isApprovedUser(userTriggered, approvedUsers)) {
-    core.setFailed("Not an approver!");
+    throw new Error('Not an approver!')
   }
 }
 
